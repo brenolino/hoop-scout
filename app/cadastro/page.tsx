@@ -31,16 +31,22 @@ export default function CadastroPage() {
   });
 
   const [errors, setErrors] = useState<Errors>({});
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleRedirectLogin = () => {
+    window.location.href ='/'; 
   };
 
   const validateEmail = (email: string): boolean => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const verValores = (e: FormEvent<HTMLButtonElement>) => {
+  const verValores = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     let newErrors: Errors = {};
     if (!formData.nome) newErrors.nome = "Nome é obrigatório";
@@ -52,9 +58,51 @@ export default function CadastroPage() {
     if (!formData.role) newErrors.role = "Selecione um tipo de usuário";
     
     setErrors(newErrors);
-    
-    if (Object.keys(newErrors).length === 0) {
-      console.log(formData);
+
+    // Se houver erros, não faça a requisição
+    if (Object.keys(newErrors).length > 0) {
+      setSuccess(false);
+      return;
+    }
+
+    // Se todos os campos forem válidos, fazer a requisição POST
+    setLoading(true);
+
+    const payload = {
+      name: formData.nome,
+      email: formData.email,
+      password: formData.senha,
+      role: formData.role,
+    }
+    try {
+      const response = await fetch("http://localhost:8083/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        setSuccess(true);
+        setFormData({
+          nome: "",
+          email: "",
+          senha: "",
+          confirmarSenha: "",
+          role: "",
+        });
+        setTimeout(() => {
+          handleRedirectLogin()
+        }, 3000)
+      } else {
+        setSuccess(false);
+      }
+    } catch (error) {
+      console.error("Erro ao enviar os dados:", error);
+      setSuccess(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -83,6 +131,7 @@ export default function CadastroPage() {
             placeholder="nome completo"
             className="h-12 bg-white border-0 text-black text-lg rounded-none"
             onChange={handleChange}
+            value={formData.nome}
           />
           {errors.nome && <p className="text-red-500 text-sm">{errors.nome}</p>}
           
@@ -92,6 +141,7 @@ export default function CadastroPage() {
             placeholder="e-mail" 
             className="h-12 bg-white border-0 text-black text-lg rounded-none" 
             onChange={handleChange}
+            value={formData.email}
           />
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
           
@@ -101,6 +151,7 @@ export default function CadastroPage() {
             placeholder="senha"
             className="h-12 bg-white border-0 text-black text-lg rounded-none"
             onChange={handleChange}
+            value={formData.senha}
           />
           {errors.senha && <p className="text-red-500 text-sm">{errors.senha}</p>}
           
@@ -110,6 +161,7 @@ export default function CadastroPage() {
             placeholder="confirmar senha"
             className="h-12 bg-white border-0 text-black text-lg rounded-none"
             onChange={handleChange}
+            value={formData.confirmarSenha}
           />
           {errors.confirmarSenha && <p className="text-red-500 text-sm">{errors.confirmarSenha}</p>}
           
@@ -129,9 +181,13 @@ export default function CadastroPage() {
           <Button 
             className="w-full h-12 bg-[#1a75ff] hover:bg-[#1a75ff]/90 rounded-none text-lg font-medium"
             onClick={verValores}
+            disabled={loading}
           >
-            Criar Conta
+            {loading ? "Carregando..." : "Criar Conta"}
           </Button>
+          {success !== null && (
+            <p className={success ? "text-green-500" : "text-red-500"}>{success ? "Conta criada com sucesso!" : "Houve um erro. Tente novamente."}</p>
+          )}
           <div className="text-center">
             <a href="#" className="text-white hover:underline text-sm underline underline-offset-4">
               Já tem uma conta? Faça login!
