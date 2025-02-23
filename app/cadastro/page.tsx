@@ -3,8 +3,61 @@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ShoppingBasketIcon as Basketball } from "lucide-react"
+import { ChangeEvent, FormEvent, useState } from "react";
+
+type FormData = {
+  nome: string;
+  email: string;
+  senha: string;
+  confirmarSenha: string;
+  role: string;
+};
+
+type Errors = {
+  nome?: string;
+  email?: string;
+  senha?: string;
+  confirmarSenha?: string;
+  role?: string;
+};
 
 export default function CadastroPage() {
+  const [formData, setFormData] = useState<FormData>({
+    nome: "",
+    email: "",
+    senha: "",
+    confirmarSenha: "",
+    role: "",
+  });
+
+  const [errors, setErrors] = useState<Errors>({});
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const validateEmail = (email: string): boolean => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const verValores = (e: FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    let newErrors: Errors = {};
+    if (!formData.nome) newErrors.nome = "Nome é obrigatório";
+    if (!formData.email) newErrors.email = "E-mail é obrigatório";
+    else if (!validateEmail(formData.email)) newErrors.email = "E-mail inválido";
+    if (!formData.senha) newErrors.senha = "Senha é obrigatória";
+    if (!formData.confirmarSenha) newErrors.confirmarSenha = "Confirmação de senha é obrigatória";
+    else if (formData.senha !== formData.confirmarSenha) newErrors.confirmarSenha = "As senhas não coincidem";
+    if (!formData.role) newErrors.role = "Selecione um tipo de usuário";
+    
+    setErrors(newErrors);
+    
+    if (Object.keys(newErrors).length === 0) {
+      console.log(formData);
+    }
+  };
+
   return (
     <div className="grid min-h-screen grid-cols-2">
       {/* Left side - Black */}
@@ -26,21 +79,57 @@ export default function CadastroPage() {
         <div className="w-full max-w-md space-y-4">
           <Input
             type="text"
+            name="nome"
             placeholder="nome completo"
             className="h-12 bg-white border-0 text-black text-lg rounded-none"
+            onChange={handleChange}
           />
-          <Input type="email" placeholder="e-mail" className="h-12 bg-white border-0 text-black text-lg rounded-none" />
+          {errors.nome && <p className="text-red-500 text-sm">{errors.nome}</p>}
+          
+          <Input 
+            type="email" 
+            name="email"
+            placeholder="e-mail" 
+            className="h-12 bg-white border-0 text-black text-lg rounded-none" 
+            onChange={handleChange}
+          />
+          {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+          
           <Input
             type="password"
+            name="senha"
             placeholder="senha"
             className="h-12 bg-white border-0 text-black text-lg rounded-none"
+            onChange={handleChange}
           />
+          {errors.senha && <p className="text-red-500 text-sm">{errors.senha}</p>}
+          
           <Input
             type="password"
+            name="confirmarSenha"
             placeholder="confirmar senha"
             className="h-12 bg-white border-0 text-black text-lg rounded-none"
+            onChange={handleChange}
           />
-          <Button className="w-full h-12 bg-[#1a75ff] hover:bg-[#1a75ff]/90 rounded-none text-lg font-medium">
+          {errors.confirmarSenha && <p className="text-red-500 text-sm">{errors.confirmarSenha}</p>}
+          
+          <select 
+            name="role"
+            className="h-12 w-full bg-white border-0 text-black text-lg rounded-none px-3"
+            onChange={handleChange}
+            value={formData.role}
+          >
+            <option value="" disabled>Tipo de usuário</option>
+            <option value="user">User</option>
+            <option value="coach">Coach</option>
+            <option value="athlete">Athlete</option>
+          </select>
+          {errors.role && <p className="text-red-500 text-sm">{errors.role}</p>}
+          
+          <Button 
+            className="w-full h-12 bg-[#1a75ff] hover:bg-[#1a75ff]/90 rounded-none text-lg font-medium"
+            onClick={verValores}
+          >
             Criar Conta
           </Button>
           <div className="text-center">
@@ -51,6 +140,5 @@ export default function CadastroPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
