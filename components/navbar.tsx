@@ -33,12 +33,12 @@ export function Navbar() {
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Link href="/types/judge" className="w-full text-black">
-                Seja Juiz
+                Seja Treinador
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Link href="/login">
+        <Link href="/">
           <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white">
             Entrar
           </Button>

@@ -11,11 +11,11 @@ export default function JudgeTypePage() {
         <div className="grid grid-cols-2 gap-12">
           <div className="space-y-8">
             <div>
-              <h1 className="text-white text-5xl font-bold mt-2">Seja Juiz</h1>
+              <h1 className="text-white text-5xl font-bold mt-2">Seja Treinador</h1>
             </div>
 
             <p className="text-gray-300 text-lg leading-relaxed">
-              Como juiz no HoopScout, você terá acesso a ferramentas especializadas para avaliação e análise de
+              Como treinador no HoopScout, você terá acesso a ferramentas especializadas para avaliação e análise de
               talentos. Nossa plataforma oferece recursos avançados para ajudar você a identificar e avaliar o potencial
               dos atletas de forma precisa e objetiva.
             </p>
@@ -33,7 +33,7 @@ export default function JudgeTypePage() {
           <div className="flex items-center justify-center">
             <Image
               src="/vecteezy_basketball_259688.svg"
-              alt="Seja um Juiz HoopScout"
+              alt="Seja um Treinador HoopScout"
               width={500}
               height={500}
             />
