@@ -37,11 +37,10 @@ export default function HowItWorksPage() {
 
           <div className="flex items-center justify-center">
             <Image
-              src="/how-it-works.jpg"
+              src="vecteezy_basketball_259696.svg"
               alt="Como funciona o HoopScout"
-              width={600}
-              height={600}
-              className="rounded-lg shadow-lg"
+              width={500}
+              height={500}
             />
           </div>
         </div>
