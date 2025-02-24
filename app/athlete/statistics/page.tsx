@@ -7,8 +7,6 @@ import { ArrowDown, ArrowUp, ChevronLeft, FileDown } from "lucide-react"
 import {
   Bar,
   BarChart,
-  Line,
-  LineChart,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -17,34 +15,35 @@ import {
   ResponsiveContainer,
 } from "recharts"
 import Footer from "../../components/footer"
+import Link from "next/link"
 
-// Dados de exemplo para os gráficos
+// Dados de exemplo para os gráficos com os atributos atualizados e escala até 10
 const athleteData = [
-  { attribute: "ATT", value: 85 },
-  { attribute: "TG", value: 92 },
-  { attribute: "INT", value: 78 },
-  { attribute: "PE", value: 88 },
-  { attribute: "CA", value: 75 },
-  { attribute: "ST", value: 82 },
+  { attribute: "Salto Vertical", Valor: 8.0 },
+  { attribute: "Velocidade", Valor: 7.5 },
+  { attribute: "Índice de Agilidade", Valor: 8.5 },
+  { attribute: "Aproveitamento de Arremessos", Valor: 7.0 },
+  { attribute: "Aproveitamento de 3 Pontos", Valor: 6.5 },
+  { attribute: "Aproveitamento de Lances Livres", Valor: 8.0 },
 ]
 
 const modelData = [
-  { attribute: "ATT", value: 95 },
-  { attribute: "TG", value: 97 },
-  { attribute: "INT", value: 92 },
-  { attribute: "PE", value: 94 },
-  { attribute: "CA", value: 90 },
-  { attribute: "ST", value: 93 },
+  { attribute: "Salto Vertical", Valor: 9.0 },
+  { attribute: "Velocidade", Valor: 8.5 },
+  { attribute: "Índice de Agilidade", Valor: 9.0 },
+  { attribute: "Aproveitamento de Arremessos", Valor: 8.0 },
+  { attribute: "Aproveitamento de 3 Pontos", Valor: 7.5 },
+  { attribute: "Aproveitamento de Lances Livres", Valor: 9.0 },
 ]
 
-const timelineData = [
-  { date: "01 Jan", athlete: 2400, model: 3000 },
-  { date: "15 Jan", athlete: 1398, model: 2800 },
-  { date: "01 Feb", athlete: 3200, model: 2900 },
-  { date: "15 Feb", athlete: 2780, model: 3100 },
-  { date: "01 Mar", athlete: 1890, model: 2950 },
-  { date: "15 Mar", athlete: 2390, model: 3200 },
-  { date: "01 Apr", athlete: 3490, model: 3400 },
+// Gráfico de comparação entre os atributos do atleta e do modelo
+const comparisonData = [
+  { attribute: "Salto Vertical", Atleta: 8.0, Modelo: 9.0 },
+  { attribute: "Velocidade", Atleta: 7.5, Modelo: 8.5 },
+  { attribute: "Índice de Agilidade", Atleta: 8.5, Modelo: 9.0 },
+  { attribute: "Aproveitamento de Arremessos", Atleta: 7.0, Modelo: 8.0 },
+  { attribute: "Aproveitamento de 3 Pontos", Atleta: 6.5, Modelo: 7.5 },
+  { attribute: "Aproveitamento de Lances Livres", Atleta: 8.0, Modelo: 9.0 },
 ]
 
 export default function AthleteStatisticsPage() {
@@ -54,7 +53,7 @@ export default function AthleteStatisticsPage() {
 
       <main className="container mx-auto px-6 py-12">
         <div className="bg-white rounded-lg p-6">
-          {/* Stats Cards */}
+          {/* Cartões de Estatísticas */}
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
             <Card className="p-4">
               <div className="flex justify-between items-start">
@@ -97,71 +96,73 @@ export default function AthleteStatisticsPage() {
             <Card className="p-4">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-sm text-gray-500">Minutos por Jogo</p>
-                  <h3 className="text-2xl font-bold mt-1">32.5</h3>
+                  <p className="text-sm text-gray-500">Avaliação Geral</p>
+                  <h3 className="text-2xl font-bold mt-1">6.4</h3>
                 </div>
-                <ArrowDown className="text-red-500" />
               </div>
             </Card>
           </div>
 
-          {/* Charts Section */}
+          {/* Seção de Gráficos */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-            {/* Athlete Stats */}
+            {/* Atributos Médios do Atleta */}
             <Card className="p-4">
               <h3 className="font-semibold mb-4">ATRIBUTOS MÉDIOS</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={athleteData}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="attribute" />
-                  <YAxis domain={[0, 100]} />
+                  <XAxis dataKey="attribute" hide/>
+                  <YAxis domain={[0, 10]} />
                   <Tooltip />
-                  <Bar dataKey="value" fill="#1a75ff" />
+                  <Legend />
+                  <Bar dataKey="Valor" fill="#1a75ff" />
                 </BarChart>
               </ResponsiveContainer>
             </Card>
 
-            {/* Timeline Comparison */}
+            {/* Gráfico de Comparação entre os Atributos */}
             <Card className="p-4">
-              <h3 className="font-semibold mb-4">EVOLUÇÃO AO LONGO DO TEMPO</h3>
+              <h3 className="font-semibold mb-4">COMPARAÇÃO DE ATRIBUTOS</h3>
               <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={timelineData}>
+                <BarChart data={comparisonData}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
+                  <XAxis dataKey="attribute" hide/>
+                  <YAxis domain={[0, 10]} />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="athlete" stroke="#1a75ff" />
-                  <Line type="monotone" dataKey="model" stroke="#82ca9d" />
-                </LineChart>
+                  <Bar dataKey="Atleta" fill="#1a75ff" />
+                  <Bar dataKey="Modelo" fill="#82ca9d" />
+                </BarChart>
               </ResponsiveContainer>
             </Card>
 
-            {/* Model Stats */}
+            {/* Atributos do Atleta Modelo */}
             <Card className="p-4">
               <h3 className="font-semibold mb-4">ATLETA MODELO</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={modelData}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="attribute" />
-                  <YAxis domain={[0, 100]} />
+                  <XAxis dataKey="attribute" hide/>
+                  <YAxis domain={[0, 10]} />
                   <Tooltip />
-                  <Bar dataKey="value" fill="#82ca9d" />
+                  <Legend />
+                  <Bar dataKey="Valor" fill="#82ca9d" />
                 </BarChart>
               </ResponsiveContainer>
             </Card>
           </div>
 
-          {/* Action Buttons */}
+          {/* Botões de Ação */}
           <div className="flex gap-4">
-            <Button
-              variant="outline"
-              className="border-black text-black hover:bg-black hover:text-white"
-              onClick={() => window.history.back()}
-            >
-              <ChevronLeft className="mr-2 h-4 w-4" />
-              Voltar
-            </Button>
+            <Link href="/dashboard">
+              <Button
+                variant="outline"
+                className="border-black text-black hover:bg-black hover:text-white"
+              >
+                <ChevronLeft className="mr-2 h-4 w-4" />
+                Voltar
+              </Button>
+            </Link>
             <Button variant="destructive">
               <FileDown className="mr-2 h-4 w-4" />
               Exportar PDF
@@ -173,4 +174,3 @@ export default function AthleteStatisticsPage() {
     </div>
   )
 }
-
