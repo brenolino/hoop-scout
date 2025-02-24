@@ -111,7 +111,7 @@ export default function DashboardPage() {
                                 <p>Pivot</p>
                               </div>
                               <div>
-                                <h4 className="font-medium text-gray-500">Físico</h4>
+                                <h4 className="font-medium text-gray-500">Média Geral</h4>
                                 <p>8.8</p>
                               </div>
                             </div>

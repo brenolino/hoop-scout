@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import { NavbarLogged } from "../../components/navbar-logged"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -143,7 +144,9 @@ export default function AthleteRatingPage() {
 
           {/* Save Button */}
           <div className="mt-8 flex justify-end">
-            <Button className="bg-green-600 hover:bg-green-700 px-8">Salvar Atleta</Button>
+            <Link href="/dashboard">
+              <Button className="bg-green-600 hover:bg-green-700 px-8">Salvar Atleta</Button>
+            </Link>
           </div>
         </div>
       </main>
