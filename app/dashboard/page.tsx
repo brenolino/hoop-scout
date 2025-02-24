@@ -25,7 +25,7 @@ const data = [
   { subject: "Habilidades", A: 9.1, B: 9.2 },
   { subject: "Arremesso", A: 8.3, B: 9.0 },
   { subject: "Chances", A: 8.8, B: 9.3 },
-  { subject: "Born skills", A: 8.5, B: 9.1 },
+  { subject: "Aptidão Natural", A: 8.5, B: 9.1 },
 ]
 
 export default function DashboardPage() {
@@ -76,11 +76,11 @@ export default function DashboardPage() {
                         <ChevronRight className="h-4 w-4" />
                       )}
                     </TableCell>
-                    <TableCell>First name</TableCell>
-                    <TableCell>High</TableCell>
+                    <TableCell>Primeiro Nome</TableCell>
+                    <TableCell>Alta</TableCell>
                     <TableCell>8.8</TableCell>
-                    <TableCell>Team name</TableCell>
-                    <TableCell>Jan 11, 2050</TableCell>
+                    <TableCell>Nome do Time</TableCell>
+                    <TableCell>11 - 02 - 2025</TableCell>
                     <TableCell>
                       <Link href={`/athlete/statistics/${index}`} passHref>
                         <Button
@@ -101,54 +101,45 @@ export default function DashboardPage() {
                           <div className="space-y-6">
                             <div className="grid grid-cols-3 gap-4">
                               <div>
-                                <h4 className="font-medium text-gray-500">Data joined</h4>
-                                <p>Jan 11, 2050</p>
+                                <h4 className="font-medium text-gray-500">Data de Entrada</h4>
+                                <p>11 - 02 - 2025</p>
                               </div>
                               <div>
-                                <h4 className="font-medium text-gray-500">Position</h4>
+                                <h4 className="font-medium text-gray-500">Posição</h4>
                                 <p>Pivot</p>
                               </div>
                               <div>
-                                <h4 className="font-medium text-gray-500">Physics</h4>
+                                <h4 className="font-medium text-gray-500">Físico</h4>
                                 <p>8.8</p>
                               </div>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                               <div>
-                                <h4 className="font-medium text-gray-500">Address</h4>
-                                <p>123 Sample St, Sydney</p>
+                                <h4 className="font-medium text-gray-500">Endereço</h4>
+                                <p>Rua José Lourenço Kelmer – São Pedro</p>
                               </div>
                               <div>
-                                <h4 className="font-medium text-gray-500">Phone</h4>
-                                <p>+1 (555) 000-0000</p>
+                                <h4 className="font-medium text-gray-500">Telefone</h4>
+                                <p>(32)2102-3911</p>
                               </div>
                             </div>
 
                             <div className="grid grid-cols-3 gap-4">
                               <div>
-                                <h4 className="font-medium text-gray-500">Born skills</h4>
-                                <p>Workflow, Figma</p>
-                              </div>
-                              <div>
-                                <h4 className="font-medium text-gray-500">Habilities</h4>
-                                <p>hello@example.v9.1</p>
-                              </div>
-                              <div>
-                                <h4 className="font-medium text-gray-500">Arrempop</h4>
+                                <h4 className="font-medium text-gray-500">Arremesso</h4>
                                 <p>8.3</p>
                               </div>
                             </div>
                           </div>
 
-                          <div className="h-[300px]">
+                          <div className="h-[200px]">
                             <ResponsiveContainer width="100%" height="100%">
                               <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
                                 <PolarGrid />
                                 <PolarAngleAxis dataKey="subject" />
                                 <PolarRadiusAxis angle={30} domain={[0, 10]} />
                                 <Radar name="Atleta" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                                <Radar name="Modelo" dataKey="B" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
                               </RadarChart>
                             </ResponsiveContainer>
                           </div>
