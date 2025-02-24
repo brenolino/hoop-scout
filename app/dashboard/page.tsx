@@ -44,10 +44,12 @@ export default function DashboardPage() {
             </div>
             <div className="flex gap-4 items-center">
               <Input type="search" placeholder="Buscar atleta..." className="max-w-xs" />
-              <Button className="bg-[#1a75ff] hover:bg-[#1a75ff]/90">
-                <UserPlus className="mr-2 h-4 w-4" />
-                Adicionar Atleta
-              </Button>
+              <Link href="/athlete/rating">
+                <Button className="bg-[#1a75ff] hover:bg-[#1a75ff]/90">
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  Adicionar Atleta
+                </Button>
+              </Link>
             </div>
           </div>
 
@@ -122,13 +124,6 @@ export default function DashboardPage() {
                               <div>
                                 <h4 className="font-medium text-gray-500">Telefone</h4>
                                 <p>(32)2102-3911</p>
-                              </div>
-                            </div>
-
-                            <div className="grid grid-cols-3 gap-4">
-                              <div>
-                                <h4 className="font-medium text-gray-500">Arremesso</h4>
-                                <p>8.3</p>
                               </div>
                             </div>
                           </div>
