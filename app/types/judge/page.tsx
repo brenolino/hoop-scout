@@ -32,11 +32,10 @@ export default function JudgeTypePage() {
 
           <div className="flex items-center justify-center">
             <Image
-              src="/judge.jpg"
+              src="/vecteezy_basketball_259688.svg"
               alt="Seja um Juiz HoopScout"
-              width={600}
-              height={600}
-              className="rounded-lg shadow-lg"
+              width={500}
+              height={500}
             />
           </div>
         </div>

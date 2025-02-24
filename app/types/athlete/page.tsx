@@ -32,11 +32,10 @@ export default function AthleteTypePage() {
 
           <div className="flex items-center justify-center">
             <Image
-              src="/athlete.jpg"
+              src="/vecteezy_basketball_259792.svg"
               alt="Seja um Atleta HoopScout"
-              width={600}
-              height={600}
-              className="rounded-lg shadow-lg"
+              width={500}
+              height={500}
             />
           </div>
         </div>
