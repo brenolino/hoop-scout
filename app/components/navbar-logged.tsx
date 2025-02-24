@@ -15,30 +15,27 @@ export function NavbarLogged() {
       </Link>
 
       <div className="flex items-center gap-6">
-        <Link href="/new-data" className="hover:text-gray-600">
-          New Data
-        </Link>
-        <Link href="/how-it-works" className="hover:text-gray-600">
-          How it works?
+        <Link href="/athlete/rating" className="hover:text-gray-600">
+          Novo Atleta
         </Link>
         <DropdownMenu>
           <DropdownMenuTrigger className="flex items-center gap-1 hover:text-gray-600">
-            Profile <ChevronDown className="w-4 h-4" />
+            Perfil <ChevronDown className="w-4 h-4" />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="bg-white">
             <DropdownMenuItem>
               <Link href="/profile/edit" className="w-full text-black">
-                Edit
+                Editar
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Link href="/" className="w-full text-black">
-                Logout
+                Sair
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Link href="/dashboards">
+        <Link href="/dashboard">
           <Button className="bg-black text-white hover:bg-black/90">Dashboards</Button>
         </Link>
       </div>
