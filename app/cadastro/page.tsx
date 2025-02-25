@@ -36,7 +36,7 @@ export default function CadastroPage() {
   };
 
   const handleRedirectLogin = () => {
-    window.location.href ='/'; 
+    window.location.href ='/';
   };
 
   const validateEmail = (email: string): boolean => {
@@ -52,7 +52,7 @@ export default function CadastroPage() {
     if (!formData.senha) newErrors.senha = "Senha é obrigatória";
     if (!formData.confirmarSenha) newErrors.confirmarSenha = "Confirmação de senha é obrigatória";
     else if (formData.senha !== formData.confirmarSenha) newErrors.confirmarSenha = "As senhas não coincidem";
-    
+
     setErrors(newErrors);
 
     // Se houver erros, não faça a requisição
@@ -128,17 +128,17 @@ export default function CadastroPage() {
             value={formData.nome}
           />
           {errors.nome && <p className="text-red-500 text-sm">{errors.nome}</p>}
-          
-          <Input 
-            type="email" 
+
+          <Input
+            type="email"
             name="email"
-            placeholder="e-mail" 
-            className="h-12 bg-white border-0 text-black text-lg rounded-none" 
+            placeholder="e-mail"
+            className="h-12 bg-white border-0 text-black text-lg rounded-none"
             onChange={handleChange}
             value={formData.email}
           />
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-          
+
           <Input
             type="password"
             name="senha"
@@ -148,7 +148,7 @@ export default function CadastroPage() {
             value={formData.senha}
           />
           {errors.senha && <p className="text-red-500 text-sm">{errors.senha}</p>}
-          
+
           <Input
             type="password"
             name="confirmarSenha"
@@ -158,7 +158,7 @@ export default function CadastroPage() {
             value={formData.confirmarSenha}
           />
           {errors.confirmarSenha && <p className="text-red-500 text-sm">{errors.confirmarSenha}</p>}
-          <Button 
+          <Button
             className="w-full h-12 bg-[#1a75ff] hover:bg-[#1a75ff]/90 rounded-none text-lg font-medium"
             onClick={verValores}
             disabled={loading}
@@ -169,9 +169,15 @@ export default function CadastroPage() {
             <p className={success ? "text-green-500" : "text-red-500"}>{success ? "Conta criada com sucesso!" : "Houve um erro. Tente novamente."}</p>
           )}
           <div className="text-center">
-            <a href="#" className="text-white hover:underline text-sm underline underline-offset-4">
-              Já tem uma conta? Faça login!
-            </a>
+          <a href="/"
+            className="text-white hover:underline text-sm underline underline-offset-4"
+            onClick={(e) => {
+              e.preventDefault();
+              handleRedirectLogin();
+            }}
+          >
+            Já tem uma conta? Faça login!
+          </a>
           </div>
         </div>
       </div>
