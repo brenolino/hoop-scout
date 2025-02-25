@@ -10,7 +10,6 @@ type FormData = {
   email: string;
   senha: string;
   confirmarSenha: string;
-  role: string;
 };
 
 type Errors = {
@@ -18,7 +17,6 @@ type Errors = {
   email?: string;
   senha?: string;
   confirmarSenha?: string;
-  role?: string;
 };
 
 export default function CadastroPage() {
@@ -27,7 +25,6 @@ export default function CadastroPage() {
     email: "",
     senha: "",
     confirmarSenha: "",
-    role: "",
   });
 
   const [errors, setErrors] = useState<Errors>({});
@@ -55,7 +52,6 @@ export default function CadastroPage() {
     if (!formData.senha) newErrors.senha = "Senha é obrigatória";
     if (!formData.confirmarSenha) newErrors.confirmarSenha = "Confirmação de senha é obrigatória";
     else if (formData.senha !== formData.confirmarSenha) newErrors.confirmarSenha = "As senhas não coincidem";
-    if (!formData.role) newErrors.role = "Selecione um tipo de usuário";
     
     setErrors(newErrors);
 
@@ -72,7 +68,6 @@ export default function CadastroPage() {
       name: formData.nome,
       email: formData.email,
       password: formData.senha,
-      role: formData.role,
     }
     try {
       const response = await fetch("http://localhost:8083/signup", {
@@ -90,7 +85,6 @@ export default function CadastroPage() {
           email: "",
           senha: "",
           confirmarSenha: "",
-          role: "",
         });
         setTimeout(() => {
           handleRedirectLogin()
@@ -164,20 +158,6 @@ export default function CadastroPage() {
             value={formData.confirmarSenha}
           />
           {errors.confirmarSenha && <p className="text-red-500 text-sm">{errors.confirmarSenha}</p>}
-          
-          <select 
-            name="role"
-            className="h-12 w-full bg-white border-0 text-black text-lg rounded-none px-3"
-            onChange={handleChange}
-            value={formData.role}
-          >
-            <option value="" disabled>Tipo de usuário</option>
-            <option value="user">User</option>
-            <option value="coach">Coach</option>
-            <option value="athlete">Athlete</option>
-          </select>
-          {errors.role && <p className="text-red-500 text-sm">{errors.role}</p>}
-          
           <Button 
             className="w-full h-12 bg-[#1a75ff] hover:bg-[#1a75ff]/90 rounded-none text-lg font-medium"
             onClick={verValores}

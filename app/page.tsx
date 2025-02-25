@@ -8,7 +8,19 @@ import { useState } from "react";
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  function decodeJWT(token: string) {
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+          throw new Error('Token inválido');
+      }
+      const decodedPayload = JSON.parse(atob(parts[1]));
+      console.log(decodedPayload)
+      localStorage.setItem('user', JSON.stringify(decodedPayload));
+    }catch (error: any) {
+      console.error('Erro ao decodificar JWT:', error);
+    }
+  }
   const handleLogin = async () => {
     const response = await fetch('http://localhost:8083/login', {
       method: 'POST',
@@ -20,6 +32,7 @@ export default function LoginPage() {
 
     if (response.ok) {
       const data = await response.json();
+      decodeJWT(data.token)
       localStorage.setItem('jwtToken', data.token);
       window.location.href = '/dashboard'; 
     } else {
