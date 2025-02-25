@@ -1,6 +1,5 @@
 "use client"
 
-import { NavbarLogged } from "../../components/navbar-logged"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ArrowDown, ArrowUp, ChevronLeft, FileDown } from "lucide-react"
@@ -14,39 +13,131 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts"
-import Footer from "../../components/footer"
 import Link from "next/link"
+import { NavbarLogged } from "@/app/components/navbar-logged"
+import { Footer } from "@/components/footer"
+import { useParams } from "next/navigation"
+import { useEffect, useState } from "react"
+import { User } from "@/app/models/User.model"
 
-// Dados de exemplo para os gráficos com os atributos atualizados e escala até 10
-const athleteData = [
-  { attribute: "Salto Vertical", Valor: 8.0 },
-  { attribute: "Velocidade", Valor: 7.5 },
-  { attribute: "Índice de Agilidade", Valor: 8.5 },
-  { attribute: "Aproveitamento de Arremessos", Valor: 7.0 },
-  { attribute: "Aproveitamento de 3 Pontos", Valor: 6.5 },
-  { attribute: "Aproveitamento de Lances Livres", Valor: 8.0 },
-]
-
-const modelData = [
-  { attribute: "Salto Vertical", Valor: 9.0 },
-  { attribute: "Velocidade", Valor: 8.5 },
-  { attribute: "Índice de Agilidade", Valor: 9.0 },
-  { attribute: "Aproveitamento de Arremessos", Valor: 8.0 },
-  { attribute: "Aproveitamento de 3 Pontos", Valor: 7.5 },
-  { attribute: "Aproveitamento de Lances Livres", Valor: 9.0 },
-]
-
-// Gráfico de comparação entre os atributos do atleta e do modelo
-const comparisonData = [
-  { attribute: "Salto Vertical", Atleta: 8.0, Modelo: 9.0 },
-  { attribute: "Velocidade", Atleta: 7.5, Modelo: 8.5 },
-  { attribute: "Índice de Agilidade", Atleta: 8.5, Modelo: 9.0 },
-  { attribute: "Aproveitamento de Arremessos", Atleta: 7.0, Modelo: 8.0 },
-  { attribute: "Aproveitamento de 3 Pontos", Atleta: 6.5, Modelo: 7.5 },
-  { attribute: "Aproveitamento de Lances Livres", Atleta: 8.0, Modelo: 9.0 },
-]
+interface ChartDataItem {
+  attribute: string,
+  Valor?: number,
+  Atleta?: number,
+  Modelo?: number
+}
 
 export default function AthleteStatisticsPage() {
+  const [athleteData, setAthleteData] = useState<ChartDataItem[]>([]);
+  const [modelData, setModelData] = useState<ChartDataItem[]>([]);
+  const [comparisonData, setComparisonData] = useState<ChartDataItem[]>([]);
+  const params = useParams();
+  const { id } = params;
+
+  function percentageFormatter(percentage: string): number{
+    return Number(percentage.slice(0, -1));
+  }
+
+  function heightFormatter(height: string): number{
+    height = height.slice(0, -1);
+    height = height.replace(",", ".");
+    return parseFloat(height);
+  }
+
+  function weightFormatter(mass: string): number{
+    return Number(mass.slice(0, -2))
+  }
+
+// Puxa os dados e formata para api de graficos
+  const getData = async () => {
+    const userString = localStorage.getItem('user');
+    let user: User;
+    if(userString){
+      user = JSON.parse(userString);
+      if(user.role === 'coach'){
+        var athleteResponse = await fetch('http://localhost:8083/athlete/' + id, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+          }
+        });
+      }
+      else{
+        var athleteResponse = await fetch('http://localhost:8083/athlete', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+          }
+        });
+      }
+
+
+      const modelResponse = await fetch('http://localhost:8083/model', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+        }
+      });
+
+      try {
+        var athleteData = await athleteResponse.json();
+        var modelData = await modelResponse.json();
+      } catch (error) {
+        alert("Erro ao obter dados");
+        console.error(error);
+      }
+      //const athleteData = await athleteResponse.json();
+      //const modelData = await modelResponse.json();
+
+      if(athleteData.age){
+        const auxModelData: ChartDataItem[] = [
+          { attribute: "Idade", Valor: modelData.age },
+          { attribute: "Altura", Valor: heightFormatter(modelData.height) },
+          { attribute: "Peso", Valor: weightFormatter(modelData.weight) },
+          { attribute: "Aproveitamento de Arremessos", Valor: percentageFormatter(modelData.shortShot) },
+          { attribute: "Aproveitamento de 3 Pontos", Valor: percentageFormatter(modelData.longShot) },
+          { attribute: "Aproveitamento de Lances Livres", Valor: percentageFormatter(modelData.freeThrow)},
+        ];
+        const auxAthleteData: ChartDataItem[] = [
+          { attribute: "Idade", Valor: athleteData.age },
+          { attribute: "Altura", Valor: heightFormatter(athleteData.height) },
+          { attribute: "Peso", Valor: weightFormatter(athleteData.weight) },
+          { attribute: "Aproveitamento de Arremessos", Valor:  percentageFormatter(athleteData.shortShot) },
+          { attribute: "Aproveitamento de 3 Pontos", Valor:  percentageFormatter(athleteData.longShot) },
+          { attribute: "Aproveitamento de Lances Livres", Valor: percentageFormatter(athleteData.freeThrow)},
+        ];
+        const auxComparisonData: ChartDataItem[] = [
+          { attribute: "Idade", Atleta: athleteData.age, Modelo: modelData.age},
+          { attribute: "Altura", Atleta: heightFormatter(athleteData.height), Modelo: heightFormatter(modelData.height) },
+          { attribute: "Peso", Atleta: weightFormatter(athleteData.weight), Modelo: weightFormatter(modelData.weight) },
+          { attribute: "Aproveitamento de Arremessos", Atleta: percentageFormatter(athleteData.shortShot), Modelo: percentageFormatter(modelData.shortShot) },
+          { attribute: "Aproveitamento de 3 Pontos", Atleta: percentageFormatter(athleteData.longShot), Modelo: percentageFormatter(modelData.longShot) },
+          { attribute: "Aproveitamento de Lances Livres", Atleta: percentageFormatter(athleteData.freeThrow), Modelo: percentageFormatter(modelData.freeThrow) },
+        ];
+    
+        setModelData(auxModelData);
+        setAthleteData(auxAthleteData);
+        setComparisonData(auxComparisonData);
+      }
+      else{
+        alert("Atleta ainda não avaliado!")
+      }
+    }
+    else{
+      alert("Necessário fazer login novamente");
+      localStorage.clear();
+      window.location.href = '/'
+    }
+
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+  
   return (
     <div className="min-h-screen bg-[#1a1a1a]">
       <NavbarLogged />

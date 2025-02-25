@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ShoppingBasketIcon as Basketball } from "lucide-react"
 import { useState } from "react";
+import { User } from "./models/User.model";
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -14,13 +15,13 @@ export default function LoginPage() {
       if (parts.length !== 3) {
           throw new Error('Token inválido');
       }
-      const decodedPayload = JSON.parse(atob(parts[1]));
-      console.log(decodedPayload)
-      localStorage.setItem('user', JSON.stringify(decodedPayload));
+      return JSON.parse(atob(parts[1]));
     }catch (error: any) {
       console.error('Erro ao decodificar JWT:', error);
+      return null
     }
   }
+
   const handleLogin = async () => {
     const response = await fetch('http://localhost:8083/login', {
       method: 'POST',
@@ -32,9 +33,35 @@ export default function LoginPage() {
 
     if (response.ok) {
       const data = await response.json();
-      decodeJWT(data.token)
-      localStorage.setItem('jwtToken', data.token);
-      window.location.href = '/dashboard'; 
+      if(data.token){
+        localStorage.setItem('jwtToken', data.token);
+      };
+
+      const user: User = decodeJWT(data.token)
+      if(user){
+        localStorage.setItem('user', JSON.stringify(user));
+      }
+      else{
+        const erro = "Erro ao capturar dados do usuario";
+        console.error(erro);
+      }
+      console.log(user)
+      alert('aaa')
+      switch (user.role) {
+        case 'user':
+          window.location.href = '/athlete/statistics/' + user.userId; 
+          break;
+        case 'coach':
+          window.location.href = '/dashboard'; 
+          break;
+        case 'athlete':
+          window.location.href = '/athlete/statistics/' + user.userId; 
+          break;
+        default:
+          alert("Erro ao capturar usuario")
+          console.error(user);
+          break;
+      }
     } else {
       alert('E-mail ou senha inválidos.');
     }
