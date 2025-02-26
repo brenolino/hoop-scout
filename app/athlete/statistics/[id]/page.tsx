@@ -100,6 +100,7 @@ export default function AthleteStatisticsPage() {
           { attribute: "Aproveitamento de Arremessos", Valor: percentageFormatter(modelData.shortShot) },
           { attribute: "Aproveitamento de 3 Pontos", Valor: percentageFormatter(modelData.longShot) },
           { attribute: "Aproveitamento de Lances Livres", Valor: percentageFormatter(modelData.freeThrow)},
+          { attribute: "Assistências por jogo", Valor: modelData.assistsGame},
         ];
         const auxAthleteData: ChartDataItem[] = [
           { attribute: "Idade", Valor: athleteData.age },
@@ -108,6 +109,7 @@ export default function AthleteStatisticsPage() {
           { attribute: "Aproveitamento de Arremessos", Valor:  percentageFormatter(athleteData.shortShot) },
           { attribute: "Aproveitamento de 3 Pontos", Valor:  percentageFormatter(athleteData.longShot) },
           { attribute: "Aproveitamento de Lances Livres", Valor: percentageFormatter(athleteData.freeThrow)},
+          { attribute: "Assistências por jogo", Valor: modelData.assistsGame},
         ];
         const auxComparisonData: ChartDataItem[] = [
           { attribute: "Idade", Atleta: athleteData.age, Modelo: modelData.age},
@@ -116,6 +118,7 @@ export default function AthleteStatisticsPage() {
           { attribute: "Aproveitamento de Arremessos", Atleta: percentageFormatter(athleteData.shortShot), Modelo: percentageFormatter(modelData.shortShot) },
           { attribute: "Aproveitamento de 3 Pontos", Atleta: percentageFormatter(athleteData.longShot), Modelo: percentageFormatter(modelData.longShot) },
           { attribute: "Aproveitamento de Lances Livres", Atleta: percentageFormatter(athleteData.freeThrow), Modelo: percentageFormatter(modelData.freeThrow) },
+          { attribute: "Assistências por jogo", Atleta: modelData.assistsGame},
         ];
     
         setModelData(auxModelData);

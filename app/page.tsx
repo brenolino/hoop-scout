@@ -46,10 +46,9 @@ export default function LoginPage() {
         console.error(erro);
       }
       console.log(user)
-      alert('aaa')
       switch (user.role) {
         case 'user':
-          window.location.href = '/athlete/statistics/' + user.userId; 
+          window.location.href = '/about' ; 
           break;
         case 'coach':
           window.location.href = '/dashboard'; 

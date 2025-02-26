@@ -38,13 +38,10 @@ export function Navbar() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Link href="/login">
-          <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white">
-            Entrar
+        <Link href="/">
+          <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white" onClick = {() => {window.location.href = '/'}}>
+            Sair
           </Button>
-        </Link>
-        <Link href="/cadastro">
-          <Button className="bg-black text-white hover:bg-black/90">Inscreva-se</Button>
         </Link>
       </div>
     </nav>

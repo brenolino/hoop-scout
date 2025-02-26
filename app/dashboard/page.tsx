@@ -211,12 +211,6 @@ export default function DashboardPage() {
             {role === 'coach' && (
               <div className="flex gap-4 items-center">
                 <Input type="search" placeholder="Buscar atleta..." className="max-w-xs" />
-                <Link href="/athlete/rating">
-                  <Button className="bg-[#1a75ff] hover:bg-[#1a75ff]/90">
-                    <UserPlus className="mr-2 h-4 w-4" />
-                    Adicionar Atleta
-                  </Button>
-                </Link>
               </div>
             )}
           </div>
@@ -285,6 +279,10 @@ export default function DashboardPage() {
                               onClick={(e) => e.stopPropagation()}
                             >
                               Ver Estatísticas
+                            </Button>
+                            <Button className="text-blue-600 hover:text-blue-800" onClick={() => (window.location.href = '/athlete/rating')}>
+                              <UserPlus className="mr-2 h-4 w-4" />
+                              Avaliar Atleta
                             </Button>
                           </Link>
                         </TableCell>
