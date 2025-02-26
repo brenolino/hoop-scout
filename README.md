@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hoop Scout
 
-## Getting Started
+Este projeto foi desenvolvido como trabalho prático para a disciplina de Engenharia de Software. O Hoop Scout é uma plataforma voltada à prospecção de atletas, oferecendo uma interface intuitiva e funcionalidades que facilitam a coleta, análise e interpretação dos dados de desempenho.
 
-First, run the development server:
+## Utilidade
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+O sistema permite:
+- Inserir os dados dos atletas de forma rápida e precisa.
+- Visualizar o desempenho dos atletas por meio de gráficos e dashboards.
+- Integrar front-end e back-end para um gerenciamento completo das informações.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Desenvolvedores
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Breno Lino Prado
+- Caio Machado Bertelli
+- Christian Rafael de Oliveira Coelho
+- Gabriel Campos Lima Alves
+- Lucas Martins Oliveira
+- Vitor Leal
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Instruções de Uso
 
-## Learn More
+### Front-end
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/brenolino/hoop-scout.git
+2. Navegue até o diretório do projeto:
+   ```bash
+   cd hoop-scout
+3. Instale as dependências:
+   ```bash
+   npm install
+5. Inicie o sistema:
+   ```bash
+   npm run dev
 
-To learn more about Next.js, take a look at the following resources:
+### Back-end
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/lucasmartinso/hoop-scout-back.git
+2. Navegue até o diretório do projeto:
+   ```bash
+   cd hoop-scout-back
+3. Instale as dependências:
+   ```bash
+   npm install
+5. Inicie o sistema:
+   ```bash
+   npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Após a execução, o sistema ficará disponível localmente (localhost). Para acesso remoto, utilize o deploy em: https://hoop-scout-api.onrender.com.
