@@ -17,8 +17,10 @@ import Link from "next/link"
 import { NavbarLogged } from "@/app/components/navbar-logged"
 import { Footer } from "@/components/footer"
 import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { User } from "@/app/models/User.model"
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 interface ChartDataItem {
   attribute: string,
@@ -33,6 +35,27 @@ export default function AthleteStatisticsPage() {
   const [comparisonData, setComparisonData] = useState<ChartDataItem[]>([]);
   const params = useParams();
   const { id } = params;
+  const pdfRef = useRef(null);
+
+  const generatePdf = async () => {
+
+    console.warn(pdfRef)
+    if (!pdfRef.current) return;
+
+    try {
+      const canvas = await html2canvas(pdfRef.current, { scale: 2 }); // Captura o conteúdo em alta qualidade
+      const imgData = canvas.toDataURL("image/png");
+
+      const pdf = new jsPDF("p", "mm", "a4");
+      const width = pdf.internal.pageSize.getWidth();
+      const height = (canvas.height * width) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, width, height);
+      pdf.save("Relatorio.pdf");
+    } catch (error) {
+      console.error("Erro ao gerar PDF:", error);
+    }
+  };
 
   function percentageFormatter(percentage: string): number{
     return Number(percentage.slice(0, -1));
@@ -100,7 +123,6 @@ export default function AthleteStatisticsPage() {
           { attribute: "Aproveitamento de Arremessos", Valor: percentageFormatter(modelData.shortShot) },
           { attribute: "Aproveitamento de 3 Pontos", Valor: percentageFormatter(modelData.longShot) },
           { attribute: "Aproveitamento de Lances Livres", Valor: percentageFormatter(modelData.freeThrow)},
-          { attribute: "Assistências por jogo", Valor: modelData.assistsGame},
         ];
         const auxAthleteData: ChartDataItem[] = [
           { attribute: "Idade", Valor: athleteData.age },
@@ -109,7 +131,6 @@ export default function AthleteStatisticsPage() {
           { attribute: "Aproveitamento de Arremessos", Valor:  percentageFormatter(athleteData.shortShot) },
           { attribute: "Aproveitamento de 3 Pontos", Valor:  percentageFormatter(athleteData.longShot) },
           { attribute: "Aproveitamento de Lances Livres", Valor: percentageFormatter(athleteData.freeThrow)},
-          { attribute: "Assistências por jogo", Valor: modelData.assistsGame},
         ];
         const auxComparisonData: ChartDataItem[] = [
           { attribute: "Idade", Atleta: athleteData.age, Modelo: modelData.age},
@@ -118,7 +139,6 @@ export default function AthleteStatisticsPage() {
           { attribute: "Aproveitamento de Arremessos", Atleta: percentageFormatter(athleteData.shortShot), Modelo: percentageFormatter(modelData.shortShot) },
           { attribute: "Aproveitamento de 3 Pontos", Atleta: percentageFormatter(athleteData.longShot), Modelo: percentageFormatter(modelData.longShot) },
           { attribute: "Aproveitamento de Lances Livres", Atleta: percentageFormatter(athleteData.freeThrow), Modelo: percentageFormatter(modelData.freeThrow) },
-          { attribute: "Assistências por jogo", Atleta: modelData.assistsGame},
         ];
     
         setModelData(auxModelData);
@@ -198,7 +218,7 @@ export default function AthleteStatisticsPage() {
           </div>
 
           {/* Seção de Gráficos */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+          <div ref={pdfRef} className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
             {/* Atributos Médios do Atleta */}
             <Card className="p-4">
               <h3 className="font-semibold mb-4">ATRIBUTOS MÉDIOS</h3>
@@ -257,7 +277,7 @@ export default function AthleteStatisticsPage() {
                 Voltar
               </Button>
             </Link>
-            <Button variant="destructive">
+            <Button variant="destructive" onClick={generatePdf}>
               <FileDown className="mr-2 h-4 w-4" />
               Exportar PDF
             </Button>
