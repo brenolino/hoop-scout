@@ -280,7 +280,7 @@ export default function DashboardPage() {
                             >
                               Ver Estatísticas
                             </Button>
-                            <Button className="text-blue-600 hover:text-blue-800" onClick={() => (window.location.href = '/athlete/rating')}>
+                            <Button className="text-blue-600 hover:text-blue-800" onClick={() => (window.location.href = `/athlete/rating/${athlete.userId}`)}>
                               <UserPlus className="mr-2 h-4 w-4" />
                               Avaliar Atleta
                             </Button>
