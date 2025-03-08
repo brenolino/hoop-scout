@@ -4,10 +4,23 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ShoppingBasketIcon as Basketball } from "lucide-react"
 import { useState } from "react";
+import { User } from "./models/User.model";
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  function decodeJWT(token: string) {
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+          throw new Error('Token inválido');
+      }
+      return JSON.parse(atob(parts[1]));
+    }catch (error: any) {
+      console.error('Erro ao decodificar JWT:', error);
+      return null
+    }
+  }
 
   const handleLogin = async () => {
     const response = await fetch('http://localhost:8083/login', {
@@ -20,8 +33,34 @@ export default function LoginPage() {
 
     if (response.ok) {
       const data = await response.json();
-      localStorage.setItem('jwtToken', data.token);
-      window.location.href = '/dashboard'; 
+      if(data.token){
+        localStorage.setItem('jwtToken', data.token);
+      };
+
+      const user: User = decodeJWT(data.token)
+      if(user){
+        localStorage.setItem('user', JSON.stringify(user));
+      }
+      else{
+        const erro = "Erro ao capturar dados do usuario";
+        console.error(erro);
+      }
+      console.log(user)
+      switch (user.role) {
+        case 'user':
+          window.location.href = '/about' ; 
+          break;
+        case 'coach':
+          window.location.href = '/dashboard'; 
+          break;
+        case 'athlete':
+          window.location.href = '/athlete/statistics/' + user.userId; 
+          break;
+        default:
+          alert("Erro ao capturar usuario")
+          console.error(user);
+          break;
+      }
     } else {
       alert('E-mail ou senha inválidos.');
     }
