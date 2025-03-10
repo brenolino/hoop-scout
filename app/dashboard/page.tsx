@@ -244,9 +244,7 @@ export default function DashboardPage() {
                   <TableRow>
                     <TableHead className="w-[30px]"></TableHead>
                     <TableHead>Nome</TableHead>
-                    <TableHead>Chances</TableHead>
                     <TableHead>Média Geral</TableHead>
-                    <TableHead>Time</TableHead>
                     <TableHead>Data Avaliação</TableHead>
                     <TableHead className="text-right">Ações</TableHead>
                   </TableRow>
@@ -266,12 +264,10 @@ export default function DashboardPage() {
                           )}
                         </TableCell>
                         <TableCell>{athlete.name || 'N/A'}</TableCell>
-                        <TableCell>{athlete.chances || 'N/A'}</TableCell>
                         <TableCell>{calculateAverage(athlete)}</TableCell>
-                        <TableCell>{athlete.team || 'N/A'}</TableCell>
                         <TableCell>{athlete.evaluationDate || 'N/A'}</TableCell>
                         <TableCell className="text-right">
-                          <Link href={`/athlete/statistics/${athlete.id}`} passHref>
+                          <Link href={`/athlete/statistics/${athlete.userId}`} passHref>
                             <Button
                               variant="ghost"
                               size="sm"
