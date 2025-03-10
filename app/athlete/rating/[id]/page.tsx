@@ -55,6 +55,7 @@ export default function AthleteRatingPage() {
 
     if (response.ok) {
       alert('Atleta salvo com sucesso!');
+      window.location.reload();
     } else {
       alert('Erro ao salvar atleta');
   }
